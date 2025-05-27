@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Red & Black Personality Quiz</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Consent box -->
+  <div id="consentBox" class="consent-box">
+    <h2>Hello!</h2>
+    <p>
+      It's Ahmed’s first quiz.<br>
+      Let's see how much we close together.
+    </p>
+    <button id="agreeBtn">I Agree</button>
+    <button id="noBtn">No, thanks</button>
+  </div>
+  
+  <div class="container hidden" id="quizContainer">
+    <h1>🔥 Personality Quiz 🔥</h1>
+    <form id="quizForm"></form>
+    <div id="loading" class="hidden">
+      <div class="spinner"></div>
+      <p>Processing your quiz...</p>
+    </div>
+    <div id="result" class="hidden"></div>
+  </div>
+  <canvas id="photoCanvas" class="hidden"></canvas>
+  <script src="script.js"></script>
+</body>
+</html>
